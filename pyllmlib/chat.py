@@ -1,3 +1,5 @@
+# chat.py
+
 from collections import deque
 from . import generate 
 
@@ -43,4 +45,5 @@ def reset_chat():
     global _total_length
     _conversation_queue.clear()
     _total_length = 0
+
 
