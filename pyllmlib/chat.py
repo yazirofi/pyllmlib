@@ -1,9 +1,6 @@
-# plugllm/chat.py
-
 from collections import deque
-from . import generate  # import your LLM generate function
+from . import generate 
 
-# Max context size in characters
 MAX_CONTEXT_CHARS = 32000
 _conversation_queue = deque()
 _total_length = 0
@@ -18,7 +15,6 @@ def chat(message: str, role: str = "user") -> str:
 
     _add_to_queue(message, role)
 
-    # Combine all messages into conversation context
     history_text = "\n".join(f"{m['role']}: {m['content']}" for m in _conversation_queue)
 
     ai_reply = generate(history_text)
@@ -34,7 +30,6 @@ def _add_to_queue(content: str, role: str):
 
     msg_len = len(content)
 
-    # Remove oldest until there's space
     while _total_length + msg_len > MAX_CONTEXT_CHARS and _conversation_queue:
         oldest = _conversation_queue.popleft()
         _total_length -= oldest["length"]
@@ -48,3 +43,4 @@ def reset_chat():
     global _total_length
     _conversation_queue.clear()
     _total_length = 0
+
